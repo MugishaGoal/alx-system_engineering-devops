@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Displays listening ports that only shows listening sockets and
+#+ shows the PID and name of the program to which each socket belongs
+
+ss -tuln | awk 'NR > 1 {print $6, $NF}' | awk -F '[():]+' '{print $NF, $0}' | sort -u -k2,2 | awk '{print $2}'
