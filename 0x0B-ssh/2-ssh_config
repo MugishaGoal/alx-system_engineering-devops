@@ -4,3 +4,7 @@
 Host *
     PasswordAuttication no
     IdentifyFile ~/.ssh/school
+    SetEnv LANG LC_*
+    HashKnownHosts yes
+    GSSAPIAuthentication yes
+    GSSAPIDelegateCredentials no
