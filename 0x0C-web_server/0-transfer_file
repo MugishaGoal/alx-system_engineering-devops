@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # A Bash script that transfers a file from our client to a server
 # Check if enough parameters are provided
 if [ "$#" -lt 4 ]; then
