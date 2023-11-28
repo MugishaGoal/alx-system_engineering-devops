@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+#Web servers as piece of software engineering and serving HTML pages
+# Install Nginx
+apt-get -y update
+apt-get -y install nginx
+
+# Configure Nginx to listen on port 80
+echo "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html;
+    server_name _;
+    location / {
+        add_header Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
+        if ($uri != '/') {
+            expires 30d;
+            break;
+        }
+        try_files \$uri \$uri/ =404;
+    }
+}" > /etc/nginx/sites-available/default
+
+# Create a simple HTML page
+echo "Hello World!" > /var/www/html/index.html
+
+# Restart Nginx
+service nginx restart
+
+# Wait for Nginx to restart
+sleep 2
+
+# Test Nginx
+curl -sI localhost | grep "HTTP/1.1 200 OK" > /dev/null
+
+# Check if the test passed
+if [ "$?" -eq 0 ]; then
+    echo "Test passed: Nginx is installed and configured correctly."
+else
+    echo "Test failed: Nginx installation or configuration issue."
+fi
