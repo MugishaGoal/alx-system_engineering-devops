@@ -10,6 +10,8 @@ fi
 scp -o StrictHostKeyChecking=no -i "$4" "$1" "$3@$2":~/
 
 # Display success or failure message
-if [ "$?" -eq 0 ]; then echo "File transfer successful!";
+if [ "$?" -eq 0 ]; then
+	echo "File transfer successful!"
 else
 	echo "Error: File transfer failed."
+fi
