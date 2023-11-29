@@ -1,32 +1,26 @@
 #!/usr/bin/env bash
 # A web server generating and serving HTML pages
-# Update and install nginx
+# Update package lists for available software packages
 apt-get update
+
+# Install Nginx web server
 apt-get install -y nginx
 
-# Create Hello World page
+# Create the document root directory
+mkdir -p /var/www/html
+
+# Create an index.html file with "Hello World!" content
 echo "Hello World!" > /var/www/html/index.html
 
-# Configure Nginx to listen on port 80
-sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
+# Configure Nginx to listen on port 80 and serve files from the document root
+printf %s "server {
+     listen      80 default_server;
+     listen      [::]:80 default_server;
+     root        /var/www/html;
+     index       index.html;
+     server_name _;
+}
+" > /etc/nginx/sites-available/default
 
-# Restart Nginx without using systemctl
+# Restart Nginx service to apply the configuration changes
 service nginx restart
-
-# Test Nginx
-nginx_status=$(service nginx status)
-if [[ $nginx_status == *"active (running)"* ]]; then
-    echo "Nginx is installed and running."
-else
-    echo "Error: Nginx is not running or encountered an issue."
-    exit 1
-fi
-
-# Test the Hello World page
-curl_output=$(curl -s http://localhost)
-if [[ $curl_output == *"Hello World!"* ]]; then
-    echo "Nginx returns a page that contains Hello World!"
-else
-    echo "Error: Nginx did not return the expected Hello World! page."
-    exit 1
-fi
