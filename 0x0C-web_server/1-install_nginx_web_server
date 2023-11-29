@@ -14,7 +14,8 @@ sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/def
 service nginx restart
 
 # Test Nginx
-if curl -s localhost | grep -q "Hello World!"; then
+response=$(curl -sI localhost | grep HTTP/1.1 | awk {'print $2'})
+if [ "$response" == "200" ]; then
     echo "Nginx is installed and configured successfully."
 else
     echo "Error: Nginx installation or configuration issue."
