@@ -14,9 +14,19 @@ sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/def
 service nginx restart
 
 # Test Nginx
-response=$(curl -sI localhost | grep HTTP/1.1 | awk {'print $2'})
-if [ "$response" == "200" ]; then
-    echo "Nginx is installed and configured successfully."
+nginx_status=$(service nginx status)
+if [[ $nginx_status == *"active (running)"* ]]; then
+    echo "Nginx is installed and running."
 else
-    echo "Error: Nginx installation or configuration issue."
+    echo "Error: Nginx is not running or encountered an issue."
+    exit 1
+fi
+
+# Test the Hello World page
+curl_output=$(curl -s http://localhost)
+if [[ $curl_output == *"Hello World!"* ]]; then
+    echo "Nginx returns a page that contains Hello World!"
+else
+    echo "Error: Nginx did not return the expected Hello World! page."
+    exit 1
 fi
