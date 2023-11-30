@@ -6,4 +6,5 @@ if [ "$#" -ne 1 ]; then
     exit 1
 fi
 
+# Use curl to send a request to the provided URL and display the size of the body in bytes
 curl -sI "$1" | grep -i Content-Length | awk '{print $2}'
