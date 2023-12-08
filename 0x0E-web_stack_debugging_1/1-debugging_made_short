@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 # A short and sweet fixing script
-# Creates a symbolic-link of Nginx configuration and enabled sites directory"
-ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-#Stars Nginx
+apt-get update
+apt-get install -y nginx
+echo "server { listen 80 default_server; listen [::]:80 default_server; server_name _; root /var/www/html; location / { try_files \$uri \$uri/ =404; }}" > /etc/nginx/sites-available/default
 service nginx start
-# Terminates the first process
-kill "$(pgrep 'nginx' head | -l)"
 
