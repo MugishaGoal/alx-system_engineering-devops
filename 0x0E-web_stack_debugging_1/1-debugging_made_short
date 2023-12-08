@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# A short and sweet fixing script
+
+apt-get update
+apt-get install -y nginx
+echo "server { listen 80 default_server; listen [::]:80 default_server; server_name _; root /var/www/html; location / { try_files \$uri \$uri/ =404; }}" > /etc/nginx/sites-available/default
+service nginx start
+
