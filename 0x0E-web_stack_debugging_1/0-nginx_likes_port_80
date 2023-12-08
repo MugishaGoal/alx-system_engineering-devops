@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# A Bash script that configures a server to listen on port 80
+# Install Nginx
+apt-get update
+apt-get install -y nginx
+
+# Configure Nginx to listen on port 80 for all active IPv4 IPs
+echo "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+    root /var/www/html;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+}" > /etc/nginx/sites-available/default
+
+# Start Nginx
+service nginx start
