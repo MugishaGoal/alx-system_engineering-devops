@@ -17,4 +17,4 @@ echo "server {
 }" > /etc/nginx/sites-available/default
 
 # Start Nginx
-service nginx start
+service nginx restart
