@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#a script to run nginx as nginx user
+# A script to run nginx as nginx user
 
 pkill -f apache2
 chown -R nginx:nginx /etc/nginx
