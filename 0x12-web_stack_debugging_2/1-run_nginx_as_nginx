@@ -10,5 +10,5 @@ sed -i 's/listen\s*80;/listen 8080;/' /etc/nginx/sites-available/default
 service nginx restart
 
 # Verify nginx is running as nginx user and listening on port 8080
-ps auxff | grep ngin[x]
+ps auxff | grep -E 'nginx: master process|nginx: worker process'
 nc -z 0 8080 ; echo $?
