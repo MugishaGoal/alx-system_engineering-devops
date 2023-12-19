@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
-# Update nginx configuration to run as nginx user
+#a script to run nginx as nginx user
 
-sed -i 's/user\s*nginx;/user nginx;/' /etc/nginx/nginx.conf
-
-# Update nginx default site configuration to listen on all active IPs on port 8080
-sed -i 's/listen\s*80;/listen 8080;/' /etc/nginx/sites-available/default
-
-# Restart nginx service to apply changes
-service nginx restart
-
-# Verify nginx is running as nginx user and listening on port 8080
-ps auxff | grep -E 'nginx: master process|nginx: worker process'
-nc -z 0 8080 ; echo $?
+pkill -f apache2
+chown -R nginx:nginx /etc/nginx
+chown -R nginx:nginx /usr/share/nginx
+chmod 755 -R /etc/nginx
+sed -i 's/#user www-data;/user nginx;/' /etc/nginx/nginx.conf
+sed -i 's+pid /run/nginx.pid;+pid /tmp/nginx.pid;+' /etc/nginx/nginx.conf
+sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-available/default
+sed -i 's/listen \[::\]:80 default_server ipv6only=on;/listen \[::\]:8080 default_server ipv6only=on;/' /etc/nginx/sites-available/default
+sudo -u nginx service nginx start
