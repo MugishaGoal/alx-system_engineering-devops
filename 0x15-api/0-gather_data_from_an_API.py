@@ -5,7 +5,6 @@ import sys
 
 
 def get_todo_list_progress(employee_id):
-    """Gets todo list progress"""
     base_url = "https://jsonplaceholder.typicode.com"
 
     """Fetching user information"""
@@ -24,6 +23,8 @@ def get_todo_list_progress(employee_id):
     """Displaying employee's TODO list progress"""
     print(f"Employee {user_data['name']} is done with tasks"
           f"({completed_count}/{total_tasks}):")
+
+    """Displaying completed tasks"""
     for task in completed_tasks:
         print(f"\t{task['title']}")
 
@@ -33,5 +34,5 @@ if __name__ == "__main__":
         print("Usage: python script.py <employee_id>")
         sys.exit(1)
 
-        employee_id = int(sys.argv[1])
-        get_todo_list_progress(employee_id)
+    employee_id = int(sys.argv[1])
+    get_todo_list_progress(employee_id)
