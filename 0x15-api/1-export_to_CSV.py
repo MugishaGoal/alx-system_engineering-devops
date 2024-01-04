@@ -1,4 +1,4 @@
-#!/usr/bin/python 3
+#!/usr/bin/python3
 import requests
 import csv
 import sys
