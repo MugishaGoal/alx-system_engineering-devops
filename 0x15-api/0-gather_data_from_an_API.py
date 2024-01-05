@@ -26,7 +26,7 @@ def get_todo_list_progress(employee_id):
 
     """Displaying completed tasks"""
     for task in completed_tasks:
-        print(f"\t{task['title']}")
+        print(f"    {task['title']}")
 
 
 if __name__ == "__main__":
