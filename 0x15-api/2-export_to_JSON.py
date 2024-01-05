@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''A Python script to export data in the JSON format'''
+"""A Python script to export data in the JSON format"""
 
 import json
 import re
@@ -15,47 +15,62 @@ if __name__ == '__main__':
     """
     if len(sys.argv) > 1:
         """
-        Checks if the provided argument is a valid user ID (numerical).
+        Check if the provided argument is a valid user ID (numerical).
         """
         if re.fullmatch(r'\d+', sys.argv[1]):
             """
             Extracts the user ID and convert it to an integer.
             """
-            user_id = int(sys.argv[1])
+            id = int(sys.argv[1])
 
             """
             Makes an API call to retrieve the user information based
             on the provided user ID.
             """
-            user_data = requests.get('{}/users/{}'.format(API_URL, user_id)).json()
+            user_res = requests.get('{}/users/{}'.format(API_URL, id)).json()
 
             """
-            Makes another API call to retrieve the todos (tasks)
+            Makes another API call to retrieve todos (tasks)
             associated with the user.
             """
-            todos_data = requests.get('{}/todos'.format(API_URL)).json()
+            todos_res = requests.get('{}/todos'.format(API_URL)).json()
 
-            """Filters the todos for the given user"""
-            todos = list(filter(lambda x: x.get('userId') == user_id, todos_data))
+            """
+            Extracts the username of the user from the response.
+            """
+            user_name = user_res.get('username')
+
+            """Filters todos for the given user"""
+            todos = list(filter(lambda x: x.get('userId') == id, todos_res))
 
             """Writes the data to a JSON file"""
-            with open('{}.json'.format(user_id), 'w') as file:
+            with open('{}.json'.format(id), 'w') as file:
                 """
                 Maps todos to the desired JSON format for better organization.
                 """
-                user_tasks = list(map(
+                user_name = user_res.get('username')
+
+            """Filters todos for the given user"""
+            todos = list(filter(lambda x: x.get('userId') == id, todos_res))
+
+            """Writes the data to a JSON file"""
+            with open('{}.json'.format(id), 'w') as file:
+                """
+                Maps todos to the desired JSON format for better organization.
+                """
+                user_data = list(map(
                     lambda x: {
                         'task': x.get('title'),
                         'completed': x.get('completed'),
-                        'username': user_data.get('username')
+                        'username': user_name
                     },
                     todos
                 ))
-                user_data_formatted = {
-                    '{}'.format(user_id): user_tasks
+                users_data = {
+                    '{}'.format(id): user_data
                 }
 
                 """
                 Writes the structured JSON data to the file.
                 """
-                json.dump(user_data_formatted, file, indent=4)
+                json.dump(users_data, file, indent=4)
