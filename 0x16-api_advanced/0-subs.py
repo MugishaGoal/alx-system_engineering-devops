@@ -15,16 +15,15 @@ def number_of_subscribers(subreddit):
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
             'AppleWebKit/537.36 (KHTML, like Gecko)',
             'Chrome/97.0.4692.71',
-            'Safari/537.36'
+            'Safari/537.36',
+            'Edg/97.0.1072.62'
         ])
     }
-    '''Make the API request'''
-    response = requests.get(
-        '{}/r/{}/about/.json'.format(REDDIT_BASE_URL, subreddit),
+    res = requests.get(
+        '{}/r/{}/about/.json'.format(BASE_URL, subreddit),
         headers=api_headers,
         allow_redirects=False
     )
-    if response.status_code == 200:
-        subscribers = response.json()['data']['subscribers']
-        return subscribers
+    if res.status_code == 200:
+        return res.json()['data']['subscribers']
     return 0
